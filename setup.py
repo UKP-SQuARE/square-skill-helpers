@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name="square_skill_helpers",
@@ -7,7 +7,7 @@ setup(
     url="www.informatik.tu-darmstadt.de/ukp",
     author="UKP",
     author_email="baumgaertner@ukp.informatik.tu-darmstadt.de",
-    packages=["square_skill_helpers"],
+    packages=find_packages(),
     install_requires=[
         "requests==2.26.0",
         "numpy==1.21.3",                     
