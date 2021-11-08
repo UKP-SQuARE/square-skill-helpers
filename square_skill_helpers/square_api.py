@@ -52,7 +52,7 @@ class ModelAPI(SquareAPI):
         :param model_request: the request to use for the call
         :return: The response from the Model API. If the request was not succesfull, an exception is raised.
         """
-        url = f"{self.model_api_url}/api/{model_name}/{pipeline}"
+        url = f"{self.config.model_api_url}/api/{model_name}/{pipeline}"
         response = requests.post(url, json=model_request, headers={"Authorization": self.config.model_api_key})
         if response.status_code == 200:
             return self.decode_model_api_response(response.json())
