@@ -11,6 +11,6 @@ setup(
     install_requires=[
         "requests==2.26.0",
         "numpy==1.21.3",                     
-        "python-dotenv==0.19.1 ",                     
+        "python-dotenv==0.19.1",                     
     ],
 )
