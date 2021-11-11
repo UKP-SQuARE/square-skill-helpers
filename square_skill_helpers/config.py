@@ -1,5 +1,6 @@
 import dataclasses
 import os
+import warnings
 from dataclasses import dataclass
 
 from dotenv import load_dotenv
@@ -11,8 +12,18 @@ class SquareSkillHelpersConfig:
     data_api_url: str = "http://host.docker.internal:8002/datastores"
 
     @classmethod
-    def from_dotenv(cls, fp: str = ".env"):
-        load_dotenv(fp)
+    def from_dotenv(cls, fp: str = None):
+        if fp is not None:
+            if not os.path.exists(fp):
+                warnings.warn(
+                    (
+                        f"No env file found at {fp}. "
+                        f"Attempting to load from existing env variables."
+                    ),
+                    RuntimeWarning
+                )
+            else:
+                load_dotenv(fp)
 
         kwargs = {}
         for field in dataclasses.fields(cls):
