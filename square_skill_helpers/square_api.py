@@ -87,7 +87,9 @@ class DataAPI(SquareAPI):
         """
         url = f"{self.config.data_api_url}/datastores/{datastore_name}/search"
         response = requests.get(
-            url, params=dict(index_name=index_name, query=query, top_k=top_k)
+            url,
+            params=dict(index_name=index_name, query=query, top_k=top_k),
+            headers={"Authorization": self.config.data_api_key},
         )
         if response.status_code == 200:
             return response.json()

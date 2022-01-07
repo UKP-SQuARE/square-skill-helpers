@@ -8,8 +8,9 @@ from dotenv import load_dotenv
 @dataclass
 class SquareSkillHelpersConfig:
     model_api_key: str
+    data_api_key: str
     model_api_url: str = "http://model_nginx:8080/api"
-    data_api_url: str = "http://host.docker.internal:8002/datastores"
+    data_api_url: str = "http://datastore_api:7000"
 
     @classmethod
     def from_dotenv(cls, fp: str = None):
