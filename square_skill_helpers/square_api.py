@@ -10,12 +10,13 @@ from square_skill_helpers.config import SquareSkillHelpersConfig
 
 logger = logging.getLogger(__name__)
 
-class SquareAPI():
+
+class SquareAPI:
     def __init__(self, config: SquareSkillHelpersConfig) -> None:
         self.config = config
 
-class ModelAPI(SquareAPI):
 
+class ModelAPI(SquareAPI):
     def decode_model_api_response(self, model_api_response):
         """
         Decode (if necessary) the model output of the Model API response and make it into
@@ -29,6 +30,7 @@ class ModelAPI(SquareAPI):
             arr_binary = base64.decodebytes(arr_binary_b64)
             arr = np.load(BytesIO(arr_binary))
             return arr
+
         # Recursively go through a value and decodeleaves (=str) or iterate over values and decode them
         def dec_or_iterate(val):
             if isinstance(val, str):
@@ -36,12 +38,21 @@ class ModelAPI(SquareAPI):
             elif isinstance(val, Iterable):
                 return [dec_or_iterate(v) for v in val]
             else:
-                raise ValueError(f"Encountered unexpected value {type(val)} while trying to decode the model output of the model API. "
-                                f"Expected str or iterable.")
+                raise ValueError(
+                    f"Encountered unexpected value {type(val)} while trying to decode the model output of the model API. "
+                    f"Expected str or iterable."
+                )
+
         if model_api_response["model_output_is_encoded"]:
-            model_api_response["model_outputs"] = {key: dec_or_iterate(arr) for key, arr in model_api_response["model_outputs"].items()}
+            model_api_response["model_outputs"] = {
+                key: dec_or_iterate(arr)
+                for key, arr in model_api_response["model_outputs"].items()
+            }
         else:
-            model_api_response["model_outputs"] = {key: np.array(arr) for key, arr in model_api_response["model_outputs"].items()}
+            model_api_response["model_outputs"] = {
+                key: np.array(arr)
+                for key, arr in model_api_response["model_outputs"].items()
+            }
         return model_api_response
 
     async def __call__(self, model_name: str, pipeline: str, model_request):
@@ -53,12 +64,18 @@ class ModelAPI(SquareAPI):
         :return: The response from the Model API. If the request was not succesfull, an exception is raised.
         """
         url = f"{self.config.model_api_url}/{model_name}/{pipeline}"
-        response = requests.post(url, json=model_request, headers={"Authorization": self.config.model_api_key})
+        response = requests.post(
+            url,
+            json=model_request,
+            headers={"Authorization": self.config.model_api_key},
+        )
         if response.status_code == 200:
             return self.decode_model_api_response(response.json())
         else:
-            raise RuntimeError(f"Request to model API at URL {url} with request {model_request} "
-                            f"failed with code {response.status_code} and message {response.text}")
+            raise RuntimeError(
+                f"Request to model API at URL {url} with request {model_request} "
+                f"failed with code {response.status_code} and message {response.text}"
+            )
 
 
 class DataAPI(SquareAPI):
