@@ -67,7 +67,7 @@ class ModelAPI(SquareAPI):
         response = requests.post(
             url,
             json=model_request,
-            headers={"Authorization": self.config.model_api_key},
+            auth=(self.config.model_api_user, self.config.model_api_password)
         )
         if response.status_code == 200:
             return self.decode_model_api_response(response.json())
