@@ -7,11 +7,8 @@ from dotenv import load_dotenv
 
 @dataclass
 class SquareSkillHelpersConfig:
-    model_api_user: str
-    model_api_password: str
     data_api_key: str
-    model_api_url: str = "http://traefik:80/api"
-    data_api_url: str = "http://datastore_api:7000"
+    square_api_url: str = "https://square.ukp-lab.de/api"
 
     @classmethod
     def from_dotenv(cls, fp: str = None):

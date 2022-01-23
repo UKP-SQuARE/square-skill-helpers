@@ -63,11 +63,10 @@ class ModelAPI(SquareAPI):
         :param model_request: the request to use for the call
         :return: The response from the Model API. If the request was not succesfull, an exception is raised.
         """
-        url = f"{self.config.model_api_url}/{model_name}/{pipeline}"
+        url = f"{self.config.square_api_url}/{model_name}/{pipeline}"
         response = requests.post(
             url,
             json=model_request,
-            auth=(self.config.model_api_user, self.config.model_api_password)
         )
         if response.status_code == 200:
             return self.decode_model_api_response(response.json())
@@ -85,7 +84,7 @@ class DataAPI(SquareAPI):
         """
         Call /datastores/{datstore_name}/search
         """
-        url = f"{self.config.data_api_url}/datastores/{datastore_name}/search"
+        url = f"{self.config.square_api_url}/datastores/{datastore_name}/search"
         response = requests.get(
             url,
             params=dict(index_name=index_name, query=query, top_k=top_k),
