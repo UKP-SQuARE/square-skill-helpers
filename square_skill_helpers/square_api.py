@@ -1,5 +1,6 @@
 import base64
 import logging
+import os
 from io import BytesIO
 from typing import Iterable
 
@@ -67,6 +68,7 @@ class ModelAPI(SquareAPI):
         response = requests.post(
             url,
             json=model_request,
+            verify=os.getenv("VERIFY_SSL", 1) == 1
         )
         if response.status_code == 200:
             return self.decode_model_api_response(response.json())
@@ -89,6 +91,7 @@ class DataAPI(SquareAPI):
             url,
             params=dict(index_name=index_name, query=query, top_k=top_k),
             headers={"Authorization": self.config.data_api_key},
+            verify=os.getenv("VERIFY_SSL", 1) == 1
         )
         if response.status_code == 200:
             return response.json()
