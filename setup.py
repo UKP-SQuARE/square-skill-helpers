@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="square_skill_helpers",
-    version="0.0.1",    
+    version="0.0.4",    
     description="",
     url="www.informatik.tu-darmstadt.de/ukp",
     author="UKP",
