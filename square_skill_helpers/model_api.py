@@ -9,8 +9,8 @@ import numpy as np
 
 from square_skill_helpers import SquareAPI, client_credentials
 
-logger = logging.getLogger(__name__)
 
+logger = logging.getLogger(__name__)
 
 class ModelAPI(SquareAPI):
     def decode_model_api_response(self, model_api_response: Dict) -> Dict:
