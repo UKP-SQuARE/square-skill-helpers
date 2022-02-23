@@ -14,6 +14,7 @@ pip install git+https://github.com/UKP-SQuARE/square-skill-helpers.git
 ## Usage
 After installing, the Datastore and Model API can be called easily. Before running the code, environment variables need to be set.
 - `KEYCLOAK_BASE_URL`: The address where tokens can be obtained from. For UKP-SQuARE set this to `https://square.ukp-lab.de`
+- `REALM`: The realm in which your Keycloak client resides. For UKP-SQuARE this is `square`.
 - `CLIENT_ID`: The ID of your client. For UKP-SQuARE, you will receive this from the UI when creating a new skill.
 - `CLIENT_SECRET`: The secret of your client/skill. For UKP-SQuARE, you will receive this from the UI when creating a new skill.
 
