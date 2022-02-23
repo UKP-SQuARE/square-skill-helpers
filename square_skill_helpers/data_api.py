@@ -4,20 +4,12 @@ from typing import Dict
 
 import requests
 
-<<<<<<< HEAD
 from square_skill_helpers import SquareAPI, client_credentials
-=======
-from square_skill_helpers import client_credentials
->>>>>>> 83ce56b229f83dbfcb47bbcd6ec4d4031b6c2574
 
 logger = logging.getLogger(__name__)
 
 
-<<<<<<< HEAD
 class DataAPI(SquareAPI):
-=======
-class DataAPI():
->>>>>>> 83ce56b229f83dbfcb47bbcd6ec4d4031b6c2574
     async def __call__(
         self,
         datastore_name: str,
