@@ -71,7 +71,7 @@ class ModelAPI(SquareAPI):
         while attempts < max_attempts:
             attempts += 1
             async with session.get(
-                url=f"{self.url}/api/main/task_result/{task_id}",
+                url=f"{self.square_api_url}/api/main/task_result/{task_id}",
                 headers={"Authorization": f"Bearer {client_credentials()}"},
                 verify_ssl=self.verify_ssl,
             ) as response:
@@ -120,7 +120,7 @@ class ModelAPI(SquareAPI):
         my_conn = aiohttp.TCPConnector()
         async with aiohttp.ClientSession(connector=my_conn) as session:
             async with session.post(
-                url=f"{self.url}/api/main/{model_identifier}/{prediction_method}",
+                url=f"{self.square_api_url}/api/main/{model_identifier}/{prediction_method}",
                 json=input_data,
                 headers={"Authorization": f"Bearer {client_credentials()}"},
                 verify_ssl=self.verify_ssl,
@@ -145,7 +145,7 @@ class ModelAPI(SquareAPI):
                 to provide the statistics for
         """
         response = requests.get(
-            url="{}/api/main/{}/stats".format(self.url, model_identifier),
+            url="{}/api/main/{}/stats".format(self.square_api_url, model_identifier),
             headers={"Authorization": f"Bearer {client_credentials()}"},
             verify=self.verify_ssl,
         )
@@ -156,7 +156,7 @@ class ModelAPI(SquareAPI):
         Get all deployed models and their statistics
         """
         response = requests.get(
-            url="{}/api/models/deployed-models".format(self.url),
+            url="{}/api/models/deployed-models".format(self.square_api_url),
             headers={"Authorization": f"Bearer {client_credentials()}"},
             verify=self.verify_ssl,
         )
@@ -167,7 +167,7 @@ class ModelAPI(SquareAPI):
         Get all deployed models and their statistics
         """
         response = requests.get(
-            url="{}/api/models/deployed-model-workers".format(self.url),
+            url="{}/api/models/deployed-model-workers".format(self.square_api_url),
             headers={"Authorization": f"Bearer {client_credentials()}"},
             verify=self.verify_ssl,
         )
@@ -195,7 +195,7 @@ class ModelAPI(SquareAPI):
         my_conn = aiohttp.TCPConnector()
         async with aiohttp.ClientSession(connector=my_conn) as session:
             async with session.post(
-                url=f"{self.url}/api/models/deploy",
+                url=f"{self.square_api_url}/api/models/deploy",
                 json=model_attributes,
                 headers={"Authorization": f"Bearer {client_credentials()}"},
                 verify_ssl=self.verify_ssl,
@@ -222,7 +222,7 @@ class ModelAPI(SquareAPI):
         my_conn = aiohttp.TCPConnector()
         async with aiohttp.ClientSession(connector=my_conn) as session:
             async with session.delete(
-                url=f"{self.url}/api/models/remove/{model_identifier}",
+                url=f"{self.square_api_url}/api/models/remove/{model_identifier}",
                 json=model_identifier,
                 headers={"Authorization": f"Bearer {client_credentials()}"},
                 verify_ssl=self.verify_ssl,
@@ -256,7 +256,7 @@ class ModelAPI(SquareAPI):
                 }
         """
         response = requests.patch(
-            url="{}/api/models/update/{}".format(self.url, model_identifier),
+            url="{}/api/models/update/{}".format(self.square_api_url, model_identifier),
             headers={"Authorization": f"Bearer {client_credentials()}"},
             json=updated_attributes,
             verify=self.verify_ssl,
@@ -279,7 +279,7 @@ class ModelAPI(SquareAPI):
         my_conn = aiohttp.TCPConnector()
         async with aiohttp.ClientSession(connector=my_conn) as session:
             async with session.patch(
-                url=f"{self.url}/api/models/{model_identifier}/add_worker/{number}",
+                url=f"{self.square_api_url}/api/models/{model_identifier}/add_worker/{number}",
                 json=model_identifier,
                 headers={"Authorization": f"Bearer {client_credentials()}"},
                 verify_ssl=self.verify_ssl,
@@ -302,7 +302,7 @@ class ModelAPI(SquareAPI):
         my_conn = aiohttp.TCPConnector()
         async with aiohttp.ClientSession(connector=my_conn) as session:
             async with session.patch(
-                url=f"{self.url}/api/models/{model_identifier}/remove_worker/{number}",
+                url=f"{self.square_api_url}/api/models/{model_identifier}/remove_worker/{number}",
                 json=model_identifier,
                 headers={"Authorization": f"Bearer {client_credentials()}"},
                 verify_ssl=self.verify_ssl,
