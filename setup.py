@@ -12,5 +12,6 @@ setup(
         "requests==2.26.0",
         "numpy==1.21.3",
         "square-auth>=0.0.3",
+        "aiohttp>=3.8.1"
     ],
 )
