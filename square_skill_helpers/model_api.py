@@ -1,12 +1,15 @@
+import base64
 import json
 import time
-from typing import Dict
+from io import BytesIO
+from typing import Dict, Iterable
 
 import requests
 import ast
 
 import asyncio
 import aiohttp
+import numpy as np
 from aiohttp.client import ClientSession
 
 from square_skill_helpers import SquareAPI, client_credentials
@@ -40,6 +43,51 @@ class ModelAPI(SquareAPI):
         super().__init__()
         self.max_attempts = 50
         self.poll_interval = 2
+
+    def decode_model_api_response(self, model_api_response: Dict) -> Dict:
+        """Decode (if necessary) the model output of the Model API response and make
+        it intonumpy arrays.
+
+        Args:
+            model_api_response (Dict): The response from the API
+
+        Raises:
+            ValueError: Raises ValueError when unexpected types (not `str` or
+            `Iterbale`) are provided.
+
+        Returns:
+            Dict: model_api_response with 'model_outputs' decoded and parsed to numpy
+        """
+        # Decode byte base64 string back to numpy array
+        def _decode(arr_string_b64):
+            arr_binary_b64 = arr_string_b64.encode()
+            arr_binary = base64.decodebytes(arr_binary_b64)
+            arr = np.load(BytesIO(arr_binary))
+            return arr
+
+        # Recursively go through a value and decodeleaves (=str) or iterate over values and decode them
+        def dec_or_iterate(val):
+            if isinstance(val, str):
+                return _decode(val)
+            elif isinstance(val, Iterable):
+                return [dec_or_iterate(v) for v in val]
+            else:
+                raise ValueError(
+                    f"Encountered unexpected value {type(val)} while trying to decode "
+                    f"the model output of the model API. Expected str or iterable."
+                )
+
+        if model_api_response["model_output_is_encoded"]:
+            model_api_response["model_outputs"] = {
+                key: dec_or_iterate(arr)
+                for key, arr in model_api_response["model_outputs"].items()
+            }
+        else:
+            model_api_response["model_outputs"] = {
+                key: np.array(arr)
+                for key, arr in model_api_response["model_outputs"].items()
+            }
+        return model_api_response
 
     async def _wait_for_task(
         self,
@@ -83,12 +131,15 @@ class ModelAPI(SquareAPI):
                 time.sleep(poll_interval)
         return json.loads(result)["result"]
 
-    async def __call__(self, model_name: str, pipeline: str, model_request: Dict):
-        return await self.predict(
+    async def __call__(self, model_name: str, pipeline: str, model_request: Dict) -> Dict:
+        prediction = await self.predict(
                 model_identifier=model_name,
                 prediction_method=pipeline,
                 input_data=model_request,
             )
+        prediction = self.decode_model_api_response(prediction)
+
+        return prediction
     
 
     async def predict(self, model_identifier, prediction_method, input_data):
