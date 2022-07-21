@@ -1,20 +1,18 @@
+import ast
+import asyncio
 import base64
 import json
 import time
 from io import BytesIO
 from typing import Dict, Iterable
 
-import requests
-import ast
-
-import asyncio
 import aiohttp
 import numpy as np
+import requests
+import urllib3
 from aiohttp.client import ClientSession
 
 from square_skill_helpers import SquareAPI, client_credentials
-
-import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -131,16 +129,17 @@ class ModelAPI(SquareAPI):
                 time.sleep(poll_interval)
         return json.loads(result)["result"]
 
-    async def __call__(self, model_name: str, pipeline: str, model_request: Dict) -> Dict:
+    async def __call__(
+        self, model_name: str, pipeline: str, model_request: Dict
+    ) -> Dict:
         prediction = await self.predict(
-                model_identifier=model_name,
-                prediction_method=pipeline,
-                input_data=model_request,
-            )
+            model_identifier=model_name,
+            prediction_method=pipeline,
+            input_data=model_request,
+        )
         prediction = self.decode_model_api_response(prediction)
 
         return prediction
-    
 
     async def predict(self, model_identifier, prediction_method, input_data):
         """
