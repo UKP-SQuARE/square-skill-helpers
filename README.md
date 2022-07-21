@@ -4,7 +4,7 @@ This package facilitates the interaction with UKP-SQuARE APIs. Currently, intera
 ## Installation
 To install the latest stable version:
 ```bash
-pip install git+https://github.com/UKP-SQuARE/square-skill-helpers.git@v0.0.5
+pip install git+https://github.com/UKP-SQuARE/square-skill-helpers.git@v0.0.8
 ```
 To install from the master branch:
 ```bash
