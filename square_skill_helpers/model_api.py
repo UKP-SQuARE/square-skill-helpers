@@ -84,7 +84,7 @@ class ModelAPI(SquareAPI):
         return json.loads(result)["result"]
 
     async def __call__(self, model_name: str, pipeline: str, model_request: Dict):
-        return self.predict(
+        return await self.predict(
             model_identifier=model_name,
             prediction_method=pipeline,
             input_data=model_request,
