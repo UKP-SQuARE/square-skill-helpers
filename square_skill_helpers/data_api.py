@@ -1,6 +1,6 @@
 import logging
 import os
-from typing import Dict
+from typing import Dict, List
 
 import requests
 
@@ -16,7 +16,7 @@ class DataAPI(SquareAPI):
         query: str,
         index_name: str = None,
         top_k: int = 10,
-        feedback_documents = None
+        feedback_documents: List[str] = None
     ) -> Dict:
         """Calls the /search endpoint of the Datastore API.
 
@@ -28,7 +28,7 @@ class DataAPI(SquareAPI):
             to `None`.
             top_k (int, optional): [description]. Number of documents to return.
             Defaults to 10.
-            feedback_documents: List of relevant feedback documents from a previous query
+            feedback_documents (List[str], optional): List of relevant feedback documents from a previous query
 
         Raises:
             RuntimeError: Raises RuntimeError, when Datastore API does not return a
