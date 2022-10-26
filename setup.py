@@ -1,10 +1,15 @@
+
 from setuptools import setup, find_packages
+
+__version__ = "0.0.10"
 
 setup(
     name="square_skill_helpers",
-    version="0.0.5",
+    version=__version__,
+    license="MIT",
     description="",
-    url="www.informatik.tu-darmstadt.de/ukp",
+    url="https://github.com/UKP-SQuARE/square-skill-helpers",
+    download_url=f"https://github.com/UKP-SQuARE/square-skill-helpers/archive/refs/tags/v{__version__}.tar.gz",
     author="UKP",
     author_email="baumgaertner@ukp.informatik.tu-darmstadt.de",
     packages=find_packages(exclude=(".gitignore", "tests")),
