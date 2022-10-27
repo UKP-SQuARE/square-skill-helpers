@@ -1,3 +1,6 @@
+
+🚧 This Package is deprecated. Please use the [square-model-client](https://github.com/UKP-SQuARE/square-model-client) or [square-datastore-client](https://github.com/ukp-SQuARE/square-datastore-client) packages. 🚧
+
 # SQuARE Skill Helpers
 This package facilitates the interaction with UKP-SQuARE APIs. Currently, interacting with the Models and Datastores is supported. This helps when implementing Skills.
 
